@@ -1,18 +1,22 @@
-// Global variables \\
+/// Global variables \\
 var currentQuestionChoices;
 var currentQuestion;
 var currentAnswer;
-var questionsLeft = 11;
-var currentQuestionNumber = [Math.floor(Math.random() * questionsLeft) + 1]
+var questionsLeft = 12;
+var currentQuestionNumber = questionsLeft;
 var correctGuesses = 0;
 var wrongGuesses = 0;
 var unanswered = 0;
-var gameOver = false;
+var battingAverage = correctGuesses / 12;
+var gameOver;
+var correctMessages = ["Brilliant! Keep it up!", "Wow, you're Hall-of-Fame bound!", "Homerun!!!", "And the crowd goes nuts!"];
+
 var qWrong = new Audio("assets/questionWrong.mp3");
 var qRight = new Audio("assets/questionRight.mp3");
 var noMoreTime = new Audio("assets/timesUP.mp3");
 var bigBen = 30;
 var intervalId;
+var userGuessed;
 
 // setTimeout(gameTimer, 1000 * 30);
 // setTimeout(shortTimer, 1000 * 5);
@@ -45,7 +49,7 @@ var master = {
         question: " One of the players on the Diamondbacks' opening day roster, led all of the major league players in the decade of the 1990s, with most hits and most doubles - Who was that player?",
         choices: ["David Dellucci", "Jay Bell", "Matt Williams", "Mark Grace"],
         answer: 3,
-        imagePath:  'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/DbacksCelebration.jpg'
     },
 
     'four': {
@@ -57,9 +61,9 @@ var master = {
 
     'five': {
         question: "How many home runs did Luis Gonzalez hit in the 2001 season?",
-        choices: ["57", "44", "57", "48"],
+        choices: ["-1", "44", "57", "48"],
         answer: 2,
-        imagePath:  'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/DbacksCelebration.jpg'
 
     },
 
@@ -67,49 +71,87 @@ var master = {
         question: "Which D-Back relief pitcher gave up three homeruns during the World Series?",
         choices: ["Byung-Hyun Kim", "Mariano Rivera", "Curt Schilling", "Mike Fetters"],
         answer: 0,
-        imagePath:  'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/DbacksCelebration.jpg'
     },
 
     'seven': {
         question: "Who hit the only home run in Game 7 of the 2001 World Series?",
         choices: ["Alfonso Soriano", "Matt Williams", "Mark Grace", "Luis Gonzales"],
         answer: 0,
-        imagePath:  'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/DbacksCelebration.jpg'
     },
 
     'eight': {
         question: " In the expansion draft of 1997, who was the first player that the Diamondbacks selected?",
         choices: ["Brian Anderson", "Randy Johnson", "Ty Cobb", "Alex Rodriguez"],
         answer: 0,
-        imagePath:  'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/DbacksCelebration.jpg'
 
 
     },
     'nine': {
-        question: "Who has won the Cy Young Award in the National League for the Diamondbacks, for four consecutive years from 1999 through 2002?",
+        question: "Who won the Cy Young Award in the National League for the Diamondbacks, for four consecutive years from 1999 through 2002?",
         choices: ["Ozzie Smith", "Curt Schilling", "Brian Anderson", "Randy Johnson"],
         answer: 3,
-        imagePath:  'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/DbacksCelebration.jpg'
 
     },
     'ten': {
         question: "What player did the Diamondbacks trade in order to get Luis Gonzalez after the 1998 season?",
         choices: ["Craig Counsel", "Karim Garcia", "Jay Bell", "Matt Williams"],
         answer: 1,
-        imagePath:  'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/DbacksCelebration.jpg'
     },
 
     'eleven': {
         question: "How old was Mike Morgan when the D-Backs won the World Series?",
         choices: ["41", "37", "25", "42"],
         answer: 3,
-        imagePath:  'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/DbacksCelebration.jpg'
     },
+
+    'twelve': {
+        question: "Who was the first player to ever get a hit as a Diamondback?",
+        choices: ["Jay Bell", "Shaquile O'Neil", "Travis Lee", "Matt Williams"],
+        answer: 2,
+        imagePath: 'assets/images/DbacksCelebration.jpg',
+        a: ""
+    },
+
+
 
 };
 
+
+//// Functions \\\\
+
 // displays current question, current choices, and references current answer
+function cleanSlate() {
+    var correctGuesses = 0;
+    var wrongGuesses = 0;
+    var unanswered = 0;
+    var questionsLeft = 12;
+    var gameOver = false;
+    var currentQuestionNumber = questionsLeft;
+    var bigBen = 30;
+    $("#choicesZero, #choicesOne, #choicesTwo, #choicesThree, #gameClock, #stageQandI, #imgSpot, #message").empty().show();
+    stop();
+    letsGo();
+    currentGameState(currentQuestionNumber);
+
+
+
+
+
+}
+
+function megatron() {
+    $("#imgSpot").html("<img src=" + currentImage + " width= '300px'" + "id='imageGallery' / >");
+}
+
+// setting up all information for logic and comparing during gameplay \\
 function currentGameState(currentQuestionNumber) {
+
 
     if (currentQuestionNumber == 1) {
         currentAnswer = master.one.answer;
@@ -249,14 +291,32 @@ function currentGameState(currentQuestionNumber) {
         $("#choicesTwo").text(currentQuestionChoices[2]);
         $("#choicesThree").text(currentQuestionChoices[3]);
     }
+    if (currentQuestionNumber == 12) {
+        currentQuestionChoices = master.twelve.choices;
+        currentAnswer = master.twelve.answer;
+        currentQuestion = master.twelve.question;
+        currentImage = master.twelve.imagePath;
+
+        //current choices displayed on butons \\
+        $("#choicesZero").text(currentQuestionChoices[0]);
+        $("#choicesOne").text(currentQuestionChoices[1]);
+        $("#choicesTwo").text(currentQuestionChoices[2]);
+        $("#choicesThree").text(currentQuestionChoices[3]);
+    }
     // displays current question \\
+    $("#stageQandI").empty();
     $("#stageQandI").text(currentQuestion);
+    // resetting the game gameClock\\
+    // calling the game clock function \\
+    bigBen = 30;
+    letsGo();
+
+
 
 }
-currentGameState(currentQuestionNumber);
 
 
-
+// holds place so number can be decremented \\
 
 function letsGo() {
     intervalId = setInterval(minusTime, 1000);
@@ -278,67 +338,188 @@ function minusTime() {
 function stop() {
     clearInterval(intervalId);
 }
-letsGo();
+
+
+// clears screen, displays the time's up screen \\
 
 function timesUp() {
-    $("#choicesZero, #choicesOne, #choicesTwo, #choicesThree, #gameClock, #stageQandI").hide();
-    $("#message").text("Whoops, you took a little too long - time's up! Baseball's already way too long a game, hurry up next time!");
+    questionsLeft--;
+    wrongGuesses++;
+    unanswered++;
+    if (questionsLeft === 0) {
+        gameOver = true;
+         noMore();
+    }
+
+    currentQuestionNumber = questionsLeft;
+    $("#choicesZero, #choicesOne, #choicesTwo, #choicesThree, #gameClock").hide();
+    $("#message").text("Whoops, you took a little too long - time's up! Baseball's already way too long a game. Hurry up next time!" + "br" + "The correct answer is: " + currentQuestionChoices[currentAnswer]);
     noMoreTime.play();
-    $("#imgSpot").append("<img src=" + currentImage + "'")
+    megatron(currentImage);
+    timesUp_clock();
+
+}
+// seven-second timer used to reload page after user let gameClock expire \\
+function timesUp_clock() {
+    setTimeout(function() { nextQuestion(); }, 5000);
 }
 
-$("#choicesZero").on("click", function(){
-    if(currentAnswer === 0){
-        correctGuesses++;
+// Each button represents a choice, comparing index spot of correct answer to user guess \\
+// button zero - [0] \\
+$("#choicesZero").on("click", function() {
+    if (currentAnswer === 0) {
+        userGuessed = true;
         stop();
-        // rightAnswer();
-    }
-        if(currentAnswer !== 0){
-            wrongGuesses++;
-            stop();
-            // wrongAnswer();
+        qRight.play();
+        rightAnswer();
 
-        }
-   
-    
-})
-$("#choicesOne").on("click", function(){
-    if(currentAnswer === 1){
-        correctGuesses++;
-        stop();
         // rightAnswer();
     }
-         if(currentAnswer !== 1){
-            wrongGuesses++;
-            stop();
-            // wrongAnswer();
-        }
-    
-})
-$("#choicesTwo").on("click", function(){
-    if(currentAnswer === 2){
-        correctGuesses++;
+    if (currentAnswer !== 0) {
+
         stop();
-        // rightAnswer();
+        qWrong.play();
+
+        wrongAnswer();
+
     }
-         if(currentAnswer !== 2){
-            wrongGuesses++;
-            stop();
-            // wrongAnswer();
-        }
-    
-})
-$("#choicesThree").on("click", function(){
-    if(currentAnswer === 3){
-        correctGuesses++;
+    // button one - [1] \\
+
+});
+$("#choicesOne").on("click", function() {
+    if (currentAnswer === 1) {
+
         stop();
-        // rightAnswer();
+        qRight.play();
+        rightAnswer();
+
+
+
     }
-         if(currentAnswer !== 3){
-            wrongGuesses++;
-            stop();
-            // wrongAnswer();
+    if (currentAnswer !== 1) {
+
+        stop();
+        qWrong.play();
+        wrongAnswer();
+    }
+    userGuessed = true;
+
+    // button two - [2] \\
+
+});
+$("#choicesTwo").on("click", function() {
+    if (currentAnswer === 2) {
+
+
+        stop();
+        qRight.play();
+        rightAnswer();
+
+
+    }
+    userGuessed = true;
+    if (currentAnswer !== 2) {
+        userGuessed = true;
+
+        stop();
+        qWrong.play();
+        wrongAnswer();
+    }
+    userGuessed = true;
+
+    // button three - [3] \\
+
+});
+$("#choicesThree").on("click", function() {
+    if (currentAnswer === 3) {
+
+        stop();
+        qRight.play();
+        rightAnswer();
+
+
+
+    }
+    userGuessed = true;
+    if (currentAnswer !== 3) {
+
+        stop();
+        qWrong.play();
+        wrongAnswer();
+
+
+
+    }
+});
+
+function rightAnswer() {
+    correctGuesses++;
+    questionsLeft--;
+    if (questionsLeft === 0) {
+        gameOver = true;
+         noMore();
         
     }
-})
+    currentQuestionNumber = questionsLeft;
+    $("#choicesZero, #choicesOne, #choicesTwo, #choicesThree, #gameClock, #stageQandI").hide();
+    var rndmMsgNumbr = [Math.floor(Math.random() * 4) + 1];
+    $("#message").text(correctMessages[rndmMsgNumbr]);
+    megatron(currentImage);
 
+
+
+}
+
+function wrongAnswer() {
+    wrongGuesses++;
+    questionsLeft--;
+    if (questionsLeft <1) {
+        gameOver = true;
+        noMore();
+      
+    }
+    currentQuestionNumber = questionsLeft;
+
+    $("#choicesZero, #choicesOne, #choicesTwo, #choicesThree, #gameClock, #stageQandI").hide();
+    $("#message").text("Ohhhh, nice try.  The correct answer is " + currentQuestionChoices[currentAnswer] + ".");
+    megatron(currentImage);
+
+
+}
+
+function nextQuestion() {
+if(!questionsLeft < 1) {
+    $("#stageQandI").empty();
+    $("#imgSpot").empty();
+    $("#message").empty();
+    currentQuestionNumber = questionsLeft;
+    currentGameState(currentQuestionNumber);
+    $("#choicesZero, #choicesOne, #choicesTwo, #choicesThree, #gameClock, #stageQandI").show();
+
+}
+    // $("#stageQandI").text(currentQuestion);
+}
+
+
+
+
+$("#startitup").on("click", function(){
+    if (!gameOver){
+        $("#startitup").addClass("biPolar").empty("biPolar").hide();
+    currentGameState(currentQuestionNumber);
+}
+})
+function noMore(){
+
+if (gameOver === true){
+   $("#choicesZero, #choicesOne, #choicesTwo, #choicesThree, #gameClock, #stageQandI").hide();
+    $(".biPolar").show().text(" Start Over ");
+    $("#results").html("Correct Guesses: " + correctGuesses);
+       $("#results2").html("Incorrect Guesses: " + wrongGuesses);
+        $("#results3").html("Unanswered Guesses: " + unanswered);
+        
+}
+}
+$(".biPolar").on("click", function(){
+    cleanSlate();
+})
