@@ -1,10 +1,47 @@
-#imageGallery{
-	margin: 200px 200px 200px 200px;
-	border-width: 2px solid;
-	border-color: #4aaaae;
+#imageGallery {
+    margin-left: 80px;
+    border-width: 2px solid;
+    border-color: #4aaaae;
 }
 
-#stageQandI  {
-	font-size: 20px;
-	color: #ffffff;
+#stageQandI {
+    font-size: 20px;
+    color: white;
+    margin-bottom: 10px;
+    font-weight: bolder;
+
+
+}
+
+body
+{
+	background-image: url("assets/images/chaseField.jpg");
+	background-color: darkgreen;
+	
+}
+
+.panel, 
+.navbar,
+.jumbotron 
+{
+	background-color: lightgreen;
+	font-weight: bolder;
+}
+#choicesZero,
+#choicesOne,
+#choicesTwo,
+#choicesThree{
+	background-color: white;
+	color: red;
+	font-weight: bolder;
+}
+.panel{
+	margin:25px 25px 80px 405px;
+	background-color: peru;
+	color: white;
+	font-weight: bolder;
+	font-size: 24px;
+	padding-top: 40px;
+	padding-bottom: 40px; 
+
 }

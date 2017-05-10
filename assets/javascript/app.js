@@ -1,4 +1,4 @@
-/// Global variables \\
+// Global variables \\
 var currentQuestionChoices;
 var currentQuestion;
 var currentAnswer;
@@ -9,6 +9,7 @@ var wrongGuesses = 0;
 var unanswered = 0;
 var battingAverage = correctGuesses / 12;
 var gameOver;
+var startOver;
 var correctMessages = ["Brilliant! Keep it up!", "Wow, you're Hall-of-Fame bound!", "Homerun!!!", "And the crowd goes nuts!"];
 
 var qWrong = new Audio("assets/questionWrong.mp3");
@@ -132,6 +133,7 @@ function cleanSlate() {
     var unanswered = 0;
     var questionsLeft = 12;
     var gameOver = false;
+    var startOver = false;
     var currentQuestionNumber = questionsLeft;
     var bigBen = 30;
     $("#choicesZero, #choicesOne, #choicesTwo, #choicesThree, #gameClock, #stageQandI, #imgSpot, #message").empty().show();
@@ -309,7 +311,7 @@ function currentGameState(currentQuestionNumber) {
     // resetting the game gameClock\\
     // calling the game clock function \\
     bigBen = 30;
-    letsGo();
+    
 
 
 
@@ -465,6 +467,7 @@ function rightAnswer() {
     var rndmMsgNumbr = [Math.floor(Math.random() * 4) + 1];
     $("#message").text(correctMessages[rndmMsgNumbr]);
     megatron(currentImage);
+    currentGameState();
 
 
 
@@ -483,6 +486,7 @@ function wrongAnswer() {
     $("#choicesZero, #choicesOne, #choicesTwo, #choicesThree, #gameClock, #stageQandI").hide();
     $("#message").text("Ohhhh, nice try.  The correct answer is " + currentQuestionChoices[currentAnswer] + ".");
     megatron(currentImage);
+    currentGameState();
 
 
 }
@@ -492,6 +496,7 @@ if(!questionsLeft < 1) {
     $("#stageQandI").empty();
     $("#imgSpot").empty();
     $("#message").empty();
+    startOver = false;
     currentQuestionNumber = questionsLeft;
     currentGameState(currentQuestionNumber);
     $("#choicesZero, #choicesOne, #choicesTwo, #choicesThree, #gameClock, #stageQandI").show();
@@ -504,22 +509,29 @@ if(!questionsLeft < 1) {
 
 
 $("#startitup").on("click", function(){
-    if (!gameOver){
-        $("#startitup").addClass("biPolar").empty("biPolar").hide();
+    if (startOver === false){
+       
     currentGameState(currentQuestionNumber);
-}
+} $("#startitup").addClass("biPolar").empty("biPolar").hide();
 })
 function noMore(){
 
-if (gameOver === true){
-   $("#choicesZero, #choicesOne, #choicesTwo, #choicesThree, #gameClock, #stageQandI").hide();
+if (gameOver === true && startOver === false){
+
+   $("#choicesZero, #choicesOne, #choicesTwo, #choicesThree, #gameClock, #stageQandI, #message, #imgSpot").empty().hide();
     $(".biPolar").show().text(" Start Over ");
-    $("#results").html("Correct Guesses: " + correctGuesses);
-       $("#results2").html("Incorrect Guesses: " + wrongGuesses);
-        $("#results3").html("Unanswered Guesses: " + unanswered);
+    $("#results").show().html("Correct Guesses: " + correctGuesses);
+       $("#results2").show().html("Incorrect Guesses: " + wrongGuesses);
+        $("#results3").show().html("Unanswered Guesses: " + unanswered);
         
 }
 }
-$(".biPolar").on("click", function(){
-    cleanSlate();
+$("#startitup").on("click", function(){
+  
+    $("#results, #results2, #results3").hide();
+    startOver = true;
+   $("#choicesZero, #choicesOne, #choicesTwo, #choicesThree, #gameClock, #stageQandI").show();
+   bigBen = 30;
+   stop();
+     cleanSlate();
 })
