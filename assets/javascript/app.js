@@ -7,7 +7,6 @@ var currentQuestionNumber = questionsLeft;
 var correctGuesses = 0;
 var wrongGuesses = 0;
 var unanswered = 0;
-var battingAverage = correctGuesses / 12;
 var gameOver;
 var startOver;
 var correctMessages = ["Brilliant! Keep it up!", "Wow, you're Hall-of-Fame bound!", "Homerun!!!", "And the crowd goes nuts!"];
@@ -41,7 +40,7 @@ var master = {
         question: "How old was Randy Johnson when he won his first Cy Young award as a Diamondback?",
         choices: ["36", "37", "32", "39"],
         answer: 0,
-        imagePath: 'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/rjpitch.jpg'
 
 
     },
@@ -50,21 +49,21 @@ var master = {
         question: " One of the players on the Diamondbacks' opening day roster, led all of the major league players in the decade of the 1990s, with most hits and most doubles - Who was that player?",
         choices: ["David Dellucci", "Jay Bell", "Matt Williams", "Mark Grace"],
         answer: 3,
-        imagePath: 'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/gracelastgame.jpg'
     },
 
     'four': {
         question: "Which pitcher won game 7 of the 2001 World Series?",
         choices: ["Randy Johnson", "Curt Schilling", "Brian Anderson", "Cy Young"],
         answer: 0,
-        imagePath: 'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/rjpitch.jpg'
     },
 
     'five': {
         question: "How many home runs did Luis Gonzalez hit in the 2001 season?",
         choices: ["-1", "44", "57", "48"],
         answer: 2,
-        imagePath: 'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/gonzoRight.jpg'
 
     },
 
@@ -72,21 +71,21 @@ var master = {
         question: "Which D-Back relief pitcher gave up three homeruns during the World Series?",
         choices: ["Byung-Hyun Kim", "Mariano Rivera", "Curt Schilling", "Mike Fetters"],
         answer: 0,
-        imagePath: 'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/byun.jpg'
     },
 
     'seven': {
         question: "Who hit the only home run in Game 7 of the 2001 World Series?",
         choices: ["Alfonso Soriano", "Matt Williams", "Mark Grace", "Luis Gonzales"],
         answer: 0,
-        imagePath: 'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/Soriano.jpg'
     },
 
     'eight': {
         question: " In the expansion draft of 1997, who was the first player that the Diamondbacks selected?",
         choices: ["Brian Anderson", "Randy Johnson", "Ty Cobb", "Alex Rodriguez"],
         answer: 0,
-        imagePath: 'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/badbacks.jpg'
 
 
     },
@@ -94,7 +93,7 @@ var master = {
         question: "Who won the Cy Young Award in the National League for the Diamondbacks, for four consecutive years from 1999 through 2002?",
         choices: ["Ozzie Smith", "Curt Schilling", "Brian Anderson", "Randy Johnson"],
         answer: 3,
-        imagePath: 'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/rjpitch.jpg'
 
     },
     'ten': {
@@ -108,14 +107,14 @@ var master = {
         question: "How old was Mike Morgan when the D-Backs won the World Series?",
         choices: ["41", "37", "25", "42"],
         answer: 3,
-        imagePath: 'assets/images/DbacksCelebration.jpg'
+        imagePath: 'assets/images/morgan.jpg'
     },
 
     'twelve': {
         question: "Who was the first player to ever get a hit as a Diamondback?",
         choices: ["Jay Bell", "Shaquile O'Neil", "Travis Lee", "Matt Williams"],
         answer: 2,
-        imagePath: 'assets/images/DbacksCelebration.jpg',
+        imagePath: 'assets/images/tlee.jpg',
         a: ""
     },
 
@@ -128,14 +127,14 @@ var master = {
 
 // displays current question, current choices, and references current answer
 function cleanSlate() {
-    var correctGuesses = 0;
-    var wrongGuesses = 0;
-    var unanswered = 0;
-    var questionsLeft = 12;
-    var gameOver = false;
-    var startOver = false;
-    var currentQuestionNumber = questionsLeft;
-    var bigBen = 30;
+    correctGuesses = 0;
+     wrongGuesses = 0;
+     unanswered = 0;
+     questionsLeft = 12;
+     gameOver = false;
+     startOver = false;
+     currentQuestionNumber = questionsLeft;
+     bigBen = 30;
     $("#choicesZero, #choicesOne, #choicesTwo, #choicesThree, #gameClock, #stageQandI, #imgSpot, #message").empty().show();
     stop();
     letsGo();
