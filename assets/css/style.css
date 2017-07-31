@@ -15,8 +15,13 @@
 
 body
 {
-	background-image: url("assets/images/chaseField.jpg");
-	background-color: darkgreen;
+	
+	
+	background-image:linear-gradient(rgba(33,1,22,.73),rgba(11,12,0,.65)), url(../images/chaseField.jpg);
+	height: 100vh;
+	background-size: cover;
+	background-position: center;
+
 	
 }
 
@@ -35,13 +40,18 @@ body
 	color: red;
 	font-weight: bolder;
 }
-.panel{
-	margin:25px 25px 80px 405px;
-	background-color: peru;
-	color: white;
-	font-weight: bolder;
-	font-size: 24px;
-	padding-top: 40px;
-	padding-bottom: 40px; 
 
+html {
+	font-weight: 450;
+	font-size: 20px;
+	text-rendering: optimizeLegibility;
+
+}
+#startitup {
+	margin:50px 100px;
+	position: relative;
+	top: 75px;
+	bottom: 75px;
+	left: 15%;
+	
 }
